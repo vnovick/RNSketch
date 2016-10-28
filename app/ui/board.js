@@ -16,6 +16,7 @@ import {
 import BackgroundScreen from './widgets/background';
 import {observer} from 'mobx-react/native';
 import Sketch from 'react-native-sketch';
+import ColorPicker from './colorPicker';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,10 +36,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#111111',
     padding: 20,
   },
-  buttonText: {
-    color: '#ffffff',
+  buttonTextColor: {
+    color: '#111',
     fontSize: 16,
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  }
 });
 
 @observer(['gameManager'])
@@ -48,8 +53,17 @@ export default class Board extends Component {
     super(props);
     this.onSave = this.onSave.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
+    this.changeColor = this.changeColor.bind(this);
+    this.state = {
+      strokeColor: '#'+Math.floor(Math.random()*16777215).toString(16)
+    };
   }
 
+  changeColor(color){
+    this.setState({
+      strokeColor: color
+    });
+  }
 
   onSave() {
     this.sketch.saveImage(this.props.gameManager.encodedSignature)
@@ -66,11 +80,12 @@ export default class Board extends Component {
       <BackgroundScreen>
         <View style={styles.container}>
           <Text style={styles.instructions}>
-            Use your finger on the screen to sign.
+            Use your finger on the screen to draw.
           </Text>
+          <ColorPicker onChange={this.changeColor} color={this.state.strokeColor} />
           <Sketch
             fillColor="#f5f5f5"
-            strokeColor="#111111"
+            strokeColor={this.state.strokeColor}
             strokeThickness={2}
             onUpdate={this.onUpdate}
             ref={(sketch) => { this.sketch = sketch; }}
@@ -88,4 +103,3 @@ export default class Board extends Component {
     );
   }
 }
-
