@@ -35,12 +35,15 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#111111',
-    padding: 20,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderWidth:1,
+    padding: 15,
+
   },
   buttonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight:'200'
   },
 });
 
@@ -53,7 +56,8 @@ export default class Board extends Component {
       red : 0,
       blue:0,
       green:0,
-      color1: 255
+      color1: 255,
+      thickness:2
     }
     this.onSave = this.onSave.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
@@ -93,7 +97,7 @@ export default class Board extends Component {
           <Sketch
             fillColor="#f5f5f5"
             strokeColor= {stroke}
-            strokeThickness={2}
+            strokeThickness={this.state.thickness}
             onUpdate={this.onUpdate}
             ref={(sketch) => { this.sketch = sketch; }}
             style={styles.sketch}
@@ -111,6 +115,25 @@ export default class Board extends Component {
           value={this.state.value}
           thumbTintColor = {color3}
           onValueChange={(blue) => this.setState({blue})} />
+          
+          </View>
+          <View style={{flexDirection:'row'}}>
+          <TouchableOpacity onPress={() => this.setState({thickness:2 })} style={{padding:10, margin:5, borderWidth:1, borderColor:"#333", backgroundColor:'rgba(0,0,0,0.4)'}}>
+          <Text style={{color:"#fff"}}>1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({thickness: 4})} style={{padding:10, margin:5, borderWidth:1, borderColor:"#333", backgroundColor:'rgba(0,0,0,0.4)'}}>
+          <Text style={{color:"#fff"}}>2</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({thickness: 6})} style={{padding:10, margin:5, borderWidth:1, borderColor:"#333", backgroundColor:'rgba(0,0,0,0.4)'}}>
+          <Text style={{color:"#fff"}}>3</Text>
+
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({thickness: 8})} style={{padding:10, margin:5, borderWidth:1, borderColor:"#333", backgroundColor:'rgba(0,0,0,0.4)'}}>
+          <Text style={{color:"#fff"}}>4</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({thickness: 10})} style={{padding:10, margin:5, borderWidth:1, borderColor:"#333", backgroundColor:'rgba(0,0,0,0.4)'}}>
+          <Text style={{color:"#fff"}}>5</Text>
+          </TouchableOpacity>
           </View>
           <TouchableOpacity
             disabled={!this.props.gameManager.encodedSignature}
