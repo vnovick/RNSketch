@@ -10,9 +10,12 @@ import {
   StyleSheet,
   Text,
   ScrollView,
+  Picker,
   TouchableOpacity,
   View
 } from 'react-native';
+
+import Slider from 'react-native-slider';
 import BackgroundScreen from './widgets/background';
 import {observer} from 'mobx-react/native';
 import Sketch from 'react-native-sketch';
@@ -46,11 +49,21 @@ export default class Board extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      red : 0,
+      blue:0,
+      green:0,
+      color1: 255
+    }
     this.onSave = this.onSave.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
   }
 
+  componentWillMount(){
+        this.setState({
+          color1: 255 * this.state.red})
 
+  }
   onSave() {
     this.sketch.saveImage(this.props.gameManager.encodedSignature)
       .then((data) => console.log(data))
@@ -62,6 +75,15 @@ export default class Board extends Component {
   }
 
   render() {
+
+    var color1 = "rgb(" + this.state.red * 255 + ",0,0)"
+    var color2 = "rgb(0," + this.state.green * 255 + ",0)"
+    var color3 = "rgb(0,0," + this.state.blue * 255 + ")"
+    var red = this.state.red * 255
+    var blue = this.state.blue * 255
+    var green = this.state.green * 255
+    var stroke = "rgb(" + this.state.red * 255 + "," + this.state.green * 255 + "," +  this.state.blue * 255  + ")"
+    console.log(this.state.red)
     return (
       <BackgroundScreen>
         <View style={styles.container}>
@@ -70,12 +92,26 @@ export default class Board extends Component {
           </Text>
           <Sketch
             fillColor="#f5f5f5"
-            strokeColor="#111111"
+            strokeColor= {stroke}
             strokeThickness={2}
             onUpdate={this.onUpdate}
             ref={(sketch) => { this.sketch = sketch; }}
             style={styles.sketch}
           />
+          <View>
+           <Slider
+          value={this.state.red}
+          thumbTintColor = {color1}
+          onValueChange={(red) => this.setState({red})} />
+          <Slider
+          value={this.state.value}
+          thumbTintColor = {color2}
+          onValueChange={(green) => this.setState({green})} />
+          <Slider
+          value={this.state.value}
+          thumbTintColor = {color3}
+          onValueChange={(blue) => this.setState({blue})} />
+          </View>
           <TouchableOpacity
             disabled={!this.props.gameManager.encodedSignature}
             style={styles.button}

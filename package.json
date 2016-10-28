@@ -12,7 +12,8 @@
     "mobx-react": "^3.5.8",
     "react": "15.3.2",
     "react-native": "0.36.0",
-    "react-native-sketch": "^0.2.4"
+    "react-native-sketch": "^0.2.4",
+    "react-native-slider": "^0.9.1"
   },
   "jest": {
     "preset": "jest-react-native"
